@@ -8,12 +8,12 @@ export async function answerWithGemini(question: string, sources: SourceChunk[])
     return null;
   }
 
-  // Agar .env ya Netlify me GEMINI_MODEL set nahi hai, toh default 'gemini-2.5-flash' use karega
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  // Uses GEMINI_MODEL if defined in environment variables, defaults to gemini-3.8-flash
+  const model = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
   const ai = new GoogleGenAI({ apiKey: key });
 
-  // Source chunks ko format karke context block create karna
+  // Format source chunks into the context block
   const context = sources
     .map((s, i) => `[Source ${i + 1}: ${s.fileName} — ${s.heading}]\n${s.content}`)
     .join("\n\n---\n\n");
